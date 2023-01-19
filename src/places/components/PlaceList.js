@@ -14,6 +14,7 @@ export default function PlaceList(props) {
 
         </div>
     }
+    
   return (
     <ul className='place-list'>
         {props.items.map((place)=>{
