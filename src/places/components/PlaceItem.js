@@ -4,11 +4,11 @@ import './PlaceItem.css'
 import Card from '../../shared/Card';
 
 
-export default function PlaceItem() {
+export default function PlaceItem(props) {
     
   return ( 
     <li className='place-item'>
-        <Card>
+        <Card className="place-item__content">
             <div className='place-item__image'>
                 <img src={props.image} alt={props.title}/>
             </div>

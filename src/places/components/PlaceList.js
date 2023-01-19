@@ -11,13 +11,13 @@ export default function PlaceList(props) {
                 <h2>No places found. Maybe create one? </h2>
                 <button>Share Place</button>
             </Card>
-
         </div>
     }
-    
+
   return (
     <ul className='place-list'>
         {props.items.map((place)=>{
+            return(
             <PlaceItem 
                 key={place.id} 
                 id={place.id} 
@@ -27,8 +27,8 @@ export default function PlaceList(props) {
                 address={place.address} 
                 creatorId={place.creator} 
                 coordinates={place.location} />
+            );
         })}
-        
     </ul>
   )
 }
