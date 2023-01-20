@@ -18,8 +18,8 @@ export default function UserList(props) {
         <ul className='user-list'>
             {props.items.map((user)=> 
                 <UserItem 
-                    key={user.id}  
-                    id={user.id} 
+                    key={user.userId}  
+                    id={user.userId} 
                     name={user.name}
                     image={user.image}
                     placeCount={user.place}/>)}

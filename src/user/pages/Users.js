@@ -6,14 +6,12 @@ import Image1 from '../../images/pexels-kássia-melo-15071001.jpg'
 export default function Users() {
     const USERS = [
         {
-    "id": "1",  
+    "userId": "1",  
     "name": "ASHLEY",
     "image": Image1,
     "placeCount": 3,
     }
 ]
-
-
   return (
     <div><UserList items={USERS}/> </div>
   )
