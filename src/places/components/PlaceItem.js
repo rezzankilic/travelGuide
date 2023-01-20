@@ -4,6 +4,7 @@ import './PlaceItem.css'
 import Card from '../../shared/Card';
 import Button from '../../shared/components/Button';
 import Modal from '../../shared/Modal';
+import Map from '../../shared/Map';
 
 
 export default function PlaceItem(props) {
@@ -29,7 +30,7 @@ export default function PlaceItem(props) {
     >
 
         <div className='map-container'>
-            <h2> The Map </h2>
+            <Map />
         </div>
 
     </Modal>

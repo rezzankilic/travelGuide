@@ -10,7 +10,13 @@ export default function Users() {
     "name": "ASHLEY",
     "image": Image1,
     "placeCount": 3,
-    }
+    },
+    {
+      "userId": "2",  
+      "name": "Homes",
+      "image": Image1,
+      "placeCount": 4,
+      }
 ]
   return (
     <div><UserList items={USERS}/> </div>
