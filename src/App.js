@@ -6,6 +6,7 @@ import NewPlace from './places/pages/NewPlace';
 import MainNavigation from './shared/MainNavigation';
 import UserPlaces from './places/pages/UserPlaces';
 import Map from './shared/Map';
+import UpdatePlace from './places/pages/UpdatePlace';
 
 function App() {
   return (
@@ -17,8 +18,9 @@ function App() {
           <Route path='/' element = {<Users/>} />
           <Route path='/places/new' element={<NewPlace/>}/>
           <Route path='/redirect' element={<Navigate to='/' /> } />
-          <Route path='/:id/places' element={<UserPlaces />} />
+          <Route path='/:userId/places' element={<UserPlaces />} />
           <Route path='/map' element={<Map /> } />
+          <Route path='/places/:placeId' element = {<UpdatePlace />} />
 
         </Routes>
       </main>
