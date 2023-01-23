@@ -38,8 +38,6 @@ export default function Input(props) {
         
     };
 
-
-
     const touchHandler = () => {
         dispatch({type: 'TOUCH', isValid:true})
     }

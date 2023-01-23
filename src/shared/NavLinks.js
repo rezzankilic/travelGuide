@@ -10,7 +10,7 @@ export default function NavLinks(props) {
             <NavLink to='/'>ALL USERS</NavLink>
         </li>
         <li>
-            <NavLink to='/1/places'>My PLACES</NavLink>
+            <NavLink to='/u1/places'>My PLACES</NavLink>
         </li>
         <li>
             <NavLink to='/places/new'>ADD PLACE</NavLink>

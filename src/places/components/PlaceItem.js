@@ -9,6 +9,7 @@ import Map from '../../shared/Map';
 
 export default function PlaceItem(props) {
     const [showMap, setShowMap] = useState(false)
+    const [showConfirmModal, setshowConfirmModal] = useState(false)
 
     function openMap(){
         setShowMap(true)
@@ -16,6 +17,19 @@ export default function PlaceItem(props) {
 
     function closeMap(){
         setShowMap(false)
+    }
+
+    function showDeleteWarningHandler(){
+        setshowConfirmModal(true)
+    }
+
+    function cancelDeleteHandler(){
+        setshowConfirmModal(false)
+    }
+
+    function confirmDeleteHandler(){
+        setshowConfirmModal(false)
+        console.log("Deleting")
     }
     
   return ( 
@@ -35,6 +49,21 @@ export default function PlaceItem(props) {
 
     </Modal>
 
+    <Modal
+        show={showConfirmModal}
+        onCancel={cancelDeleteHandler}
+        header="Are you sure?"
+        footerClass="place-item__modal-actions"
+        footer={
+            <div> 
+                <Button inverse onClick={confirmDeleteHandler}> DELETE </Button>
+                <Button danger onClick={cancelDeleteHandler}> CANCEL  </Button>
+            </div>
+            }
+    >
+        <p>Do you want to proceed? </p>
+    </Modal>
+
 
     <li className='place-item'>
         <Card className="place-item__content">
@@ -50,7 +79,7 @@ export default function PlaceItem(props) {
                 <Button inverse onClick={openMap}>VIEW ON MAP</Button>
 
                 <Button to={`/places/${props.id}`}>EDIT</Button>
-                <Button danger >DELETE</Button>
+                <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
             </div>
         </Card>
     </li>

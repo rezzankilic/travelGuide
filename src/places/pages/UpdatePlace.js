@@ -6,6 +6,7 @@ import Input from '../../shared/components/Input';
 import Button from '../../shared/components/Button';
 import {VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH} from '../../shared/utils/validators'; 
 import { useForm } from '../../shared/hooks/form-hook';
+import Card from '../../shared/Card';
 
 
 
@@ -26,7 +27,7 @@ const DUMMY_PLACES = [
   },
   {
     id: 'p2',
-    title: 'Empire State Building',
+    title: 'Em State Building',
     description: 'One of the most famous sky scrapers in the world!',
     imageUrl:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/NYC_Empire_State_Building.jpg/640px-NYC_Empire_State_Building.jpg',
@@ -60,6 +61,8 @@ const UpdatePlace = () => {
   const identifiedPlace = DUMMY_PLACES.find(p => p.id === placeId);
 
   useEffect(() => {
+    if(identifiedPlace){
+
     setFormData(
       {
         title: {
@@ -73,6 +76,7 @@ const UpdatePlace = () => {
       },
       true
     );
+    }
     setIsLoading(false);
   }, [setFormData, identifiedPlace]);
 
@@ -84,7 +88,8 @@ const UpdatePlace = () => {
   if (!identifiedPlace) {
     return (
       <div className="center">
-        <h2>Could not find place!</h2>
+        <Card><h2>Could not find place!</h2></Card>
+        
       </div>
     );
   }
