@@ -1,15 +1,17 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 
 import './PlaceItem.css'
 import Card from '../../shared/Card';
 import Button from '../../shared/components/Button';
 import Modal from '../../shared/Modal';
 import Map from '../../shared/Map';
-
+import { AuthContext } from '../../shared/hooks/auth-context';
 
 export default function PlaceItem(props) {
     const [showMap, setShowMap] = useState(false)
     const [showConfirmModal, setshowConfirmModal] = useState(false)
+
+    const auth = useContext(AuthContext)
 
     function openMap(){
         setShowMap(true)
@@ -77,9 +79,13 @@ export default function PlaceItem(props) {
             </div>
             <div className='place-item__actions'>
                 <Button inverse onClick={openMap}>VIEW ON MAP</Button>
-
-                <Button to={`/places/${props.id}`}>EDIT</Button>
-                <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
+                {auth.isLoggedIn && 
+                    <>
+                        <Button to={`/places/${props.id}`}>EDIT</Button>
+                        <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
+                    </>
+                }
+                
             </div>
         </Card>
     </li>
