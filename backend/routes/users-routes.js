@@ -1,33 +1,17 @@
-const express = require('express');
+const usersControllers = require('../controllers/users-controllers')
 
+const express = require('express');
 const router = express.Router();
 
 
-const DUMMY_USERS = [
-    {
-"userId": "u1",  
-"name": "ASHLEY",
-"placeCount": 3,
-},
-{
-"userId": "u2",  
-"name": "Homes",
-"placeCount": 4,
-}
-]
 
 
 
-router.get('/:uid', (req, res, next) => {
-    const userid = req.params.uid;
-    const user = DUMMY_USERS.find(user => {
-        return user.userId === userid
-    })
+router.get('/', usersControllers.getUsers);
 
-    res.json({user: user})
+router.post('/signup', usersControllers.signup)
 
-    console.log('has requested');
-})
+router.post('/login', usersControllers.login)
 
 
 
