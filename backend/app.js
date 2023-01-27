@@ -1,11 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose')
+
+
 
 const placesRoutes = require('./routes/places-routes');
 const usersRoutes = require('./routes/users-routes');
 const HttpError = require('./models/http-error')
 
-
+mongoose.set('strictQuery', true);
 const app = express();
 
 app.use(bodyParser.json())
@@ -29,6 +32,11 @@ app.use((error, req, res, next) => {
 
 
 
-
-
-app.listen(3000);
+mongoose
+    .connect('mongodb+srv://rezzan:1223456@cluster0.apsjcns.mongodb.net/places?retryWrites=true&w=majority')
+    .then(()=>{
+        app.listen(3000);
+    })
+    .catch((err)=>{
+        console.log(err)
+    });
