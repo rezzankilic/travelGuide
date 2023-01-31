@@ -1,7 +1,9 @@
 
 const HttpError = require("../models/http-error");
 const { validationResult } = require('express-validator')
-const Place = require('../models/place')
+const Place = require('../models/place');
+const User = require('../models/user');
+const  mongoose = require("mongoose");
 
 
 const getPlaceById = async (req, res, next) => {
@@ -53,7 +55,7 @@ const createPlace = async (req, res, next) => {
 
     if(!errors.isEmpty()){
       console.log(errors)
-      throw new HttpError('invalid inputs passed, please check your date', 422)
+      return next( new HttpError('invalid inputs passed, please check your date', 422));
     }
 
     const {title, description, location, address, creator}= req.body;
@@ -68,8 +70,37 @@ const createPlace = async (req, res, next) => {
       },
       creator: creator
     });
+
+
+    let user;
+
     try{
-      await createdPlace.save();
+      user = await User.findById(creator)
+
+    } catch(err){
+        const error = new HttpError('Creating place failed, plaese try aggain.', 500);
+        return next(error)
+    }
+
+    if(!user){
+      const error = new HttpError('Couldnot find user proviedd id', 404);
+      return next(error)
+    }
+
+    console.log(user)
+
+
+    try{
+
+      const sess = await mongoose.startSession();
+      sess.startTransaction();
+      await createdPlace.save({ session: sess});
+      user.places.push(createdPlace);
+      await user.save({ session: sess});
+      await sess.commitTransaction();
+    
+
+
     } catch(err){
       const error = new HttpError('error occured in created place', 500);
       console.log(err)
@@ -117,7 +148,7 @@ const deletePlace = async (req, res, next) => {
     let place;
 
     try{
-      place = await Place.findById(placeId);
+      place = await Place.findById(placeId).populate('creator');
     } catch (err) {
       const error = new HttpError("sometihn wrong, couldnt delete", 500)
       return next(error)
@@ -128,6 +159,11 @@ const deletePlace = async (req, res, next) => {
    } catch (err) {
     const error = new HttpError("sometihn wrong, 2nd delete", 500);
     return next(error);
+  }
+
+  if(!place){
+    const error = HttpError('Could not find place for this ID.', 404);
+    return next(error)
   }
 
     res.status(200).json({message: "OBject deleted."});
