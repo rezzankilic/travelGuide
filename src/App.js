@@ -25,31 +25,6 @@ function App() {
 
 
 
-  // if (isLoggedIn){
-  //   routes(
-  //     <>
-  //     <Routes
-  //     <Route path='/' element = {<Users/>} />
-  //     <Route path='/:userId/places' element={<UserPlaces />} />
-  //     <Route path='/places/new' element={<NewPlace/>}/>
-  //     <Route path='/places/:placeId' element = {<UpdatePlace />} />
-  //     <Navigate to='/' />
-  //     </>
-  //   );
-
-  // } else {
-  //   routes(
-  //     <>
-  //     <Route path='/' element = {<Users/>} />
-  //     <Route path='/:userId/places' element={<UserPlaces />} />
-  //     <Route path='/auth' element={<Auth/> } />
-  //     <Navigate path='/auth' />
-  //     </>
-  //   );
-  // }
-
-
-
   return (
     <AuthContext.Provider value={{isLoggedIn: isLoggedIn, login:login, logout:logout}}>
       <div className="App">
