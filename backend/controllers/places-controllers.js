@@ -155,7 +155,14 @@ const deletePlace = async (req, res, next) => {
     }
     
    try{
-    await place.remove();
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await place.remove({session: sess});
+    place.creator.places.pull(place);
+    await place.creator.save({session: sess});
+    await sess.commitTransaction();
+
+
    } catch (err) {
     const error = new HttpError("sometihn wrong, 2nd delete", 500);
     return next(error);
