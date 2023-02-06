@@ -22,7 +22,7 @@ export default function UserList(props) {
                     id={user.userId} 
                     name={user.name}
                     image={user.image}
-                    placeCount={user.place}/>)}
+                    placeCount={user.places.length}/>)}
         </ul>
       );
   

@@ -1,24 +1,37 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
 import UserList from '../components/UserList'
-import Image1 from '../../images/pexels-kássia-melo-15071001.jpg'
+import ErrorModal from '../../shared/ErrorModal';
+import LoadingSpinner from '../../shared/LoadingSpinner';
+import { useHttpClient } from '../../shared/hooks/http-hook';
+
 
 export default function Users() {
-    const USERS = [
-        {
-    "userId": "u1",  
-    "name": "ASHLEY",
-    "image": Image1,
-    "placeCount": 3,
-    },
-    {
-      "userId": "u2",  
-      "name": "Homes",
-      "image": Image1,
-      "placeCount": 4,
-      }
-]
+  const {isLoading, error, sendRequest, clearError} = useHttpClient();
+  const [loadedUsers, setLoadedUsers] = useState();
+
+
+      useEffect(()=>{
+        const fetchUsers = async() =>{
+        try{
+          const responseData = await sendRequest('http://localhost:4999/api/users');
+          setLoadedUsers(responseData.users);
+        } catch (err) {};
+        };
+        fetchUsers();
+      }, [sendRequest]);
+
+    
   return (
-    <div><UserList items={USERS}/> </div>
+    <>
+    <ErrorModal error={error} onClear={clearError} />
+    {isLoading && (
+      <div className='center'>
+        <LoadingSpinner asOverlay />
+      </div>
+    )}
+    {!isLoading && loadedUsers &&
+     <div><UserList items={loadedUsers}/> </div>}
+    </>
   )
 }

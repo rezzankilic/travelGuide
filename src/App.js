@@ -11,22 +11,26 @@ import UpdatePlace from './places/pages/UpdatePlace';
 import Auth from './user/pages/Auth';
 import { AuthContext } from './shared/hooks/auth-context';
 
-function App() {
-  const[isLoggedIn, setIsLoggedIn] = useState(false)
 
-  const login = useCallback(()=>{
-    setIsLoggedIn(true)
+function App() {
+  const[isLoggedIn, setIsLoggedIn] = useState(false);
+  const[userId, setUserId] = useState(false);
+
+  const login = useCallback((uid)=>{
+    setIsLoggedIn(true);
+    setUserId(uid);
   }, [])
 
   const logout = useCallback(()=>{
-    setIsLoggedIn(false)
+    setIsLoggedIn(false);
+    setUserId(null);
   }, [])
 
 
 
 
   return (
-    <AuthContext.Provider value={{isLoggedIn: isLoggedIn, login:login, logout:logout}}>
+    <AuthContext.Provider value={{isLoggedIn: isLoggedIn, userId: userId, login:login, logout:logout}}>
       <div className="App">
         <BrowserRouter>
         <MainNavigation/>
@@ -45,7 +49,7 @@ function App() {
 
             <Route path='/:userId/places' element={<UserPlaces/> } /> 
             
-            <Route path='' element={<Users/> } /> 
+            <Route path='/' element={<Users/> } /> 
             
             <Route path='/auth' element={<Auth/> } /> 
 

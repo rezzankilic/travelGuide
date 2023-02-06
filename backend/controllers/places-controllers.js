@@ -64,10 +64,10 @@ const createPlace = async (req, res, next) => {
       description: description,
       image:'https://upload.wikimedia.org/wikipedia/commons/4/45/Liberty02.jpg',
       address: address,
-      location: {
-        lat: location.lat,
-        lng: location.lng
-      },
+      // location: {
+      //   lat: location.lat,
+      //   lng: location.lng
+      // },
       creator: creator
     });
 
