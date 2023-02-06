@@ -1,5 +1,6 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom'
+import { useHttpClient } from '../../shared/hooks/http-hook'
 
 import './UserPlaces.css'
 import PlaceList from '../components/PlaceList'
@@ -35,8 +36,28 @@ const DUMMY_PLACES = [
 ];
 
 const UserPlaces = () => {
+  const [loadedPlaces, setLoadedPlace ] = useState();
+  const {isLoading, error, sendRequest, clearError} = useHttpClient();
+
   const userId = useParams().userId;
-  const loadedPlaces = DUMMY_PLACES.filter(place => place.creator === userId);
+
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try{
+        const responseData = await sendRequest(`http://localhost:4999/api/places/user/${userId}`);
+        setLoadedPlace(responseData.places);
+      } catch (err) {}
+      }
+    fetchPlaces();
+  }, [sendRequest])
+
+
+  
+ 
+
+
+
+
   return <PlaceList items={loadedPlaces} />;
 };
 
