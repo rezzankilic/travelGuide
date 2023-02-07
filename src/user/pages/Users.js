@@ -16,9 +16,11 @@ export default function Users() {
         try{
           const responseData = await sendRequest('http://localhost:4999/api/users');
           setLoadedUsers(responseData.users);
+          console.log(responseData.users)
         } catch (err) {};
         };
         fetchUsers();
+        
       }, [sendRequest]);
 
     
