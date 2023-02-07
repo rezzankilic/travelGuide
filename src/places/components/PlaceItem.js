@@ -6,10 +6,15 @@ import Button from '../../shared/components/Button';
 import Modal from '../../shared/Modal';
 import Map from '../../shared/Map';
 import { AuthContext } from '../../shared/hooks/auth-context';
+import { useHttpClient } from '../../shared/hooks/http-hook';
+import ErrorModal from '../../shared/ErrorModal';
+import LoadingSpinner from '../../shared/LoadingSpinner';
+
 
 export default function PlaceItem(props) {
     const [showMap, setShowMap] = useState(false)
-    const [showConfirmModal, setshowConfirmModal] = useState(false)
+    const [showConfirmModal, setshowConfirmModal] = useState(false);
+    const {isLoading, error, sendRequest, clearError} = useHttpClient();
 
     const auth = useContext(AuthContext)
 
@@ -29,13 +34,18 @@ export default function PlaceItem(props) {
         setshowConfirmModal(false)
     }
 
-    function confirmDeleteHandler(){
-        setshowConfirmModal(false)
-        console.log("Deleting")
+    const confirmDeleteHandler = async () => {
+        setshowConfirmModal(false);
+        try{
+            await sendRequest(`http://localhost:4999/api/places/${props.id}`,
+            'DELETE',);
+            props.onDelete(props.id);
+        } catch (err) {}
     }
     
   return ( 
     <>
+    <ErrorModal error={error} onClear={clearError}/>
     <Modal 
         show={showMap} 
         onClick={closeMap} 
@@ -69,6 +79,7 @@ export default function PlaceItem(props) {
 
     <li className='place-item'>
         <Card className="place-item__content">
+            {isLoading && <LoadingSpinner asOverLay/>}
             <div className='place-item__image'>
                 <img src={props.image} alt={props.title}/>
             </div>
@@ -79,7 +90,7 @@ export default function PlaceItem(props) {
             </div>
             <div className='place-item__actions'>
                 <Button inverse onClick={openMap}>VIEW ON MAP</Button>
-                {auth.isLoggedIn && 
+                {auth.userId === props.creatorId && 
                     <>
                         <Button to={`/places/${props.id}`}>EDIT</Button>
                         <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
