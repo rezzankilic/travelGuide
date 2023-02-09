@@ -5,6 +5,7 @@ import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../s
 import { useForm } from '../../shared/hooks/form-hook';
 import ErrorModal from '../../shared/ErrorModal';
 import LoadingSpinner from '../../shared/LoadingSpinner';
+import ImageUpload from '../../shared/components/ImageUpload';
 
 
 
@@ -40,6 +41,9 @@ export default function Auth() {
 
   const authSubmitHandler = async (e) => {
     e.preventDefault();
+
+    console.log(formState.inputs);
+    
     if(isLoginMode){
 
       try{
@@ -88,6 +92,7 @@ export default function Auth() {
                 {
                     ...formState.inputs,
                     name: undefined,
+                    image: undefined
                 },
                 formState.inputs.email.isValid && formState.inputs.password.isValid
             );
@@ -96,7 +101,11 @@ export default function Auth() {
                 ...formState.inputs,
                 name:{
                     value: '',
-                    isValid: false,
+                    isValid: false
+                },
+                image:{
+                    value: null,
+                    isValid: false
                 }
             }, false)
 
@@ -129,6 +138,8 @@ export default function Auth() {
               onInput={inputHandler}
               />
           }
+          
+          {!isLoading && !isLoginMode && <ImageUpload center id="image" onInput={inputHandler}/>}
               <Input 
                   element="input" 
                   id="email" 
