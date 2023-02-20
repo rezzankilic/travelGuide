@@ -76,7 +76,7 @@ export default function Auth() {
             'POST',
             formData
           );
-          
+
         auth.login( responseData.user.id );  
         navigate('/')
 
@@ -139,7 +139,7 @@ export default function Auth() {
               />
           }
           
-          {!isLoading && !isLoginMode && <ImageUpload center id="image" onInput={inputHandler}/>}
+          {!isLoading && !isLoginMode && <ImageUpload center id="image" onInput={inputHandler} errorText="Please upload an image."/>}
               <Input 
                   element="input" 
                   id="email" 
