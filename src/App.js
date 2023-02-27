@@ -13,17 +13,18 @@ import { AuthContext } from './shared/hooks/auth-context';
 
 
 function App() {
-  const[isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoading] = useState(true)
+  const[token, setToken] = useState(false);
   const[userId, setUserId] = useState(false);
 
 
-  const login = useCallback((uid)=>{
-    setIsLoggedIn(true);
+  const login = useCallback((uid, token)=>{
+    setToken(token);
     setUserId(uid);
   }, [])
 
   const logout = useCallback(()=>{
-    setIsLoggedIn(false);
+    setToken(null);
     setUserId(null);
   }, [])
 
@@ -31,7 +32,7 @@ function App() {
 
 
   return (
-    <AuthContext.Provider value={{isLoggedIn: isLoggedIn, userId: userId, login:login, logout:logout}}>
+    <AuthContext.Provider value={{isLoggedIn: !!token, token: token, userId: userId, login:login, logout:logout}}>
       <div className="App">
         <BrowserRouter>
         <MainNavigation/>
@@ -41,10 +42,10 @@ function App() {
               <>
 
                 <Route path='/places/new' element={
-                isLoggedIn ? (<NewPlace/>) : (<Navigate to='/auth' />)}/>
+                token ? (<NewPlace/>) : (<Navigate to='/auth' />)}/>
 
                 <Route path='/places/:placeId' element = {
-                isLoggedIn ? (<UpdatePlace />) : (<Navigate to='/auth' />)} />
+                token ? (<UpdatePlace />) : (<Navigate to='/auth' />)} />
 
               </>
 
