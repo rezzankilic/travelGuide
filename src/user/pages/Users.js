@@ -14,7 +14,7 @@ export default function Users() {
       useEffect(()=>{
         const fetchUsers = async() =>{
         try{
-          const responseData = await sendRequest('http://localhost:4999/api/users');
+          const responseData = await sendRequest(process.env.REACT_APP_BACKEND_URL + '/users');
           setLoadedUsers(responseData.users);
           console.log(responseData.users)
         } catch (err) {};

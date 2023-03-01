@@ -24,7 +24,7 @@ export default function NavLinks(props) {
         )}
         {auth.isLoggedIn && (
             <li>
-                <NavLink to='/logout'>Logout</NavLink>
+                <NavLink onClick={auth.logout}>Logout</NavLink>
             </li>
         )}
         {!auth.isLoggedIn && (
