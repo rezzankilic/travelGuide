@@ -5,7 +5,8 @@ const Place = require('../models/place');
 const User = require('../models/user');
 const  mongoose = require("mongoose");
 
-const fs = require('fs')
+const fs = require('fs');
+const { request } = require("http");
 
 
 const getPlaceById = async (req, res, next) => {
@@ -60,7 +61,8 @@ const createPlace = async (req, res, next) => {
       return next( new HttpError('invalid inputs passed, please check your date', 422));
     }
 
-    const {title, description, location, address, creator}= req.body;
+    const {title, description, location, address}= req.body;
+
     const createdPlace = new Place ({
       title: title,
       description: description,
@@ -70,14 +72,14 @@ const createPlace = async (req, res, next) => {
       //   lat: location.lat,
       //   lng: location.lng
       // },
-      creator: creator
+      creator: req.userData.creator
     });
 
 
     let user;
 
     try{
-      user = await User.findById(creator)
+      user = await User.findById(req.userData.userId)
 
     } catch(err){
         const error = new HttpError('Creating place failed, plaese try aggain.', 500);
@@ -133,6 +135,14 @@ const updatePlace = async (req, res, next) => {
     return next(error);
   }
 
+  if (place.creator.toString() !== req.userData.userId){
+    const error = new HttpError(
+      'You are not allowwwed to addedd this place.',
+      401
+    );
+    return next(error);
+  }
+
   place.title = title;
   place.description = description;
 
@@ -167,6 +177,14 @@ const deletePlace = async (req, res, next) => {
       return next(error)
     }
 
+
+    if(place.creator.id !== req.userData.userId){
+      const error = new HttpError(
+        'You arnot allowed to delete thiis place.',
+        401
+      );
+      return next(error);
+    }
     const imagePath = place.image;
 
 
